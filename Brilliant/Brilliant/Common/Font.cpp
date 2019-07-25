@@ -46,10 +46,11 @@ void AddFontFile(int etcId, char *localFile)
 	char *file = combine(GetFontDir(), localFile);
 
 	{
-		autoList<uchar> *fileData = GetEtcFileData(etcId);
+		autoList<uchar> *fileData = GetEtcRes()->GetHandle(etcId);
 		writeAllBytes(file, fileData);
-		delete fileData;
 	}
+
+	GetEtcRes()->UnloadAllHandle(); // ‘e‘åƒSƒ~ŠJ•ú
 
 	LOG("AddFontResourceEx ST %u\n", (uint)time(NULL));
 	errorCase(!AddFontResourceEx(file, FR_PRIVATE, NULL)); // ? Ž¸”s

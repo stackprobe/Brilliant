@@ -70,7 +70,3 @@ static PicInfo_t *LoadMirrorPic(autoList<uchar> *fileData)
 	return Pic_GraphicHandle2PicInfo(Pic_SoftImage2GraphicHandle(new_si_h));
 }
 oneObject(resCluster<PicInfo_t *>, CreatePicRes(LoadMirrorPic, UnloadPic), GetMirrorPicRes);
-
-// app > @ original PicRes
-
-// < app
