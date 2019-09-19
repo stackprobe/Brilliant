@@ -10,7 +10,7 @@ namespace Charlotte.Game3Common
 	public class SceneKeeper
 	{
 		private int FrameMax;
-		private int StartedProcFrame = int.MaxValue;
+		private int StartedProcFrame = -1;
 
 		public SceneKeeper(int frameMax)
 		{
@@ -35,7 +35,7 @@ namespace Charlotte.Game3Common
 
 		public void Clear()
 		{
-			this.StartedProcFrame = int.MaxValue;
+			this.StartedProcFrame = -1;
 		}
 
 		public bool IsJustFired()
@@ -45,14 +45,20 @@ namespace Charlotte.Game3Common
 
 		public bool IsFlaming()
 		{
-			return this.StartedProcFrame <= DDEngine.ProcFrame && DDEngine.ProcFrame <= this.StartedProcFrame + this.FrameMax;
+			return
+				this.StartedProcFrame != -1 &&
+				this.StartedProcFrame <= DDEngine.ProcFrame &&
+				DDEngine.ProcFrame <= this.StartedProcFrame + this.FrameMax;
 		}
 
 		public int Count
 		{
 			get
 			{
-				return this.IsFlaming() ? DDEngine.ProcFrame - this.StartedProcFrame : -1;
+				if (this.IsFlaming() == false)
+					throw new DDError();
+
+				return DDEngine.ProcFrame - this.StartedProcFrame;
 			}
 		}
 
@@ -66,7 +72,7 @@ namespace Charlotte.Game3Common
 				{
 					Numer = count,
 					Denom = this.FrameMax,
-					Rate = count / (double)this.FrameMax,
+					Rate = (double)count / this.FrameMax,
 				};
 			}
 			return null;
