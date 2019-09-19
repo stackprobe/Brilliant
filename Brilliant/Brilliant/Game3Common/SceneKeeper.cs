@@ -10,7 +10,7 @@ namespace Charlotte.Game3Common
 	public class SceneKeeper
 	{
 		private int FrameMax;
-		private int StartedProcFrame = -1;
+		private int StartedProcFrame = int.MaxValue;
 
 		public SceneKeeper(int frameMax)
 		{
@@ -25,9 +25,17 @@ namespace Charlotte.Game3Common
 			this.StartedProcFrame = DDEngine.ProcFrame;
 		}
 
+		public void FireDelay(int delay = 1)
+		{
+			if (delay < 0 || IntTools.IMAX < delay)
+				throw new DDError();
+
+			this.StartedProcFrame = DDEngine.ProcFrame + delay;
+		}
+
 		public void Clear()
 		{
-			this.StartedProcFrame = -1;
+			this.StartedProcFrame = int.MaxValue;
 		}
 
 		public bool IsJustFired()
@@ -37,33 +45,29 @@ namespace Charlotte.Game3Common
 
 		public bool IsFlaming()
 		{
-			return this.StartedProcFrame != -1 && (DDEngine.ProcFrame - this.StartedProcFrame) <= this.FrameMax;
+			return this.StartedProcFrame <= DDEngine.ProcFrame && DDEngine.ProcFrame <= this.StartedProcFrame + this.FrameMax;
 		}
 
 		public int Count
 		{
 			get
 			{
-				return this.StartedProcFrame == -1 ? -1 : DDEngine.ProcFrame - this.StartedProcFrame;
+				return this.IsFlaming() ? DDEngine.ProcFrame - this.StartedProcFrame : -1;
 			}
 		}
 
 		public DDScene GetScene()
 		{
-			if (this.StartedProcFrame != -1)
+			if (this.IsFlaming())
 			{
 				int count = DDEngine.ProcFrame - this.StartedProcFrame;
 
-				if (count <= this.FrameMax)
+				return new DDScene()
 				{
-					return new DDScene()
-					{
-						Numer = count,
-						Denom = this.FrameMax,
-						Rate = count / (double)this.FrameMax,
-					};
-				}
-				this.StartedProcFrame = -1;
+					Numer = count,
+					Denom = this.FrameMax,
+					Rate = count / (double)this.FrameMax,
+				};
 			}
 			return null;
 		}
