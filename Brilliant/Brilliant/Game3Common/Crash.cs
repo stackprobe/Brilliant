@@ -6,22 +6,12 @@ using Charlotte.Tools;
 
 namespace Charlotte.Game3Common
 {
-	public class Crash
+	public struct Crash
 	{
-		// インスタンスの生成は CrashUtils で、
-
-		public enum Kind_e
-		{
-			NONE = 1,
-			POINT,
-			CIRCLE,
-			RECT,
-		}
-
-		public Kind_e Kind = Kind_e.POINT;
-		public D2Point Pt = new D2Point(-1, 0);
-		public double R = 0.0;
-		public D4Rect Rect = null;
+		public CrashUtils.Kind_e Kind;
+		public D2Point Pt;
+		public double R;
+		public D4Rect Rect;
 
 		public bool IsCrashed(Crash other)
 		{
