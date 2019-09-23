@@ -124,6 +124,7 @@
     <Compile Include="Common\DDWin32.cs" />
     <Compile Include="Game3Common\Crash.cs" />
     <Compile Include="Game3Common\CrashUtils.cs" />
+    <Compile Include="Game3Common\CResource.cs" />
     <Compile Include="Game3Common\SceneKeeper.cs" />
     <Compile Include="Game3Common\SlideUtils.cs" />
     <Compile Include="Ground.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="ResourceMusic.cs" />
     <Compile Include="ResourcePicture.cs" />
     <Compile Include="ResourceSE.cs" />
+    <Compile Include="Tests\Game3Common\CResourceTest.cs" />
     <Compile Include="Tests\Test0001.cs" />
     <EmbeddedResource Include="MainWin.resx">
       <DependentUpon>MainWin.cs</DependentUpon>

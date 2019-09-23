@@ -6,6 +6,7 @@ using DxLibDLL;
 using Charlotte.Common;
 using Charlotte.Tools;
 using Charlotte.Tests;
+using Charlotte.Tests.Game3Common;
 
 namespace Charlotte
 {
@@ -66,7 +67,8 @@ namespace Charlotte
 
 		private void Main4()
 		{
-			new Test0001().Test01();
+			//new Test0001().Test01();
+			new CResourceTest().Test01();
 		}
 	}
 }
