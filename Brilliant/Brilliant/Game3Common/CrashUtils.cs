@@ -15,6 +15,7 @@ namespace Charlotte.Game3Common
 			POINT,
 			CIRCLE,
 			RECT,
+			MULTI,
 		}
 
 		public static Crash None()
@@ -58,6 +59,20 @@ namespace Charlotte.Game3Common
 			};
 		}
 
+		public static Crash Multi(params Crash[] crashes)
+		{
+			return Multi((IEnumerable<Crash>)crashes);
+		}
+
+		public static Crash Multi(IEnumerable<Crash> crashes)
+		{
+			return new Crash()
+			{
+				Kind = Kind_e.MULTI,
+				Cs = crashes is Crash[] ? (Crash[])crashes : crashes.ToArray(),
+			};
+		}
+
 		public static bool IsCrashed(Crash a, Crash b)
 		{
 			if ((int)b.Kind < (int)a.Kind)
@@ -68,6 +83,9 @@ namespace Charlotte.Game3Common
 			}
 			if (a.Kind == Kind_e.NONE)
 				return false;
+
+			if (b.Kind == Kind_e.MULTI)
+				return IsCrashed_Any_Multi(a, b);
 
 			if (a.Kind == Kind_e.POINT)
 			{
@@ -80,7 +98,9 @@ namespace Charlotte.Game3Common
 				if (b.Kind == Kind_e.RECT)
 					return DDUtils.IsCrashed_Rect_Point(b.Rect, a.Pt);
 
-				throw new DDError();
+				if (b.Kind == Kind_e.MULTI)
+
+					throw new DDError();
 			}
 			if (a.Kind == Kind_e.CIRCLE)
 			{
@@ -100,6 +120,33 @@ namespace Charlotte.Game3Common
 				throw new DDError();
 			}
 			throw new DDError();
+		}
+
+		private static bool IsCrashed_Any_Multi(Crash a, Crash b)
+		{
+			//if (b.Kind != Kind_e.MULTI) throw null; // never
+
+			if (a.Kind == Kind_e.MULTI)
+				return IsCrashed_Multi_Multi(a, b);
+
+			foreach (Crash crash in b.Cs)
+				if (IsCrashed(a, crash))
+					return true;
+
+			return false;
+		}
+
+		private static bool IsCrashed_Multi_Multi(Crash a, Crash b)
+		{
+			//if (a.Kind != Kind_e.MULTI) throw null; // never
+			//if (b.Kind != Kind_e.MULTI) throw null; // never
+
+			foreach (Crash ac in a.Cs)
+				foreach (Crash bc in b.Cs)
+					if (IsCrashed(ac, bc))
+						return true;
+
+			return false;
 		}
 	}
 }

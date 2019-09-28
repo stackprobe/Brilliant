@@ -12,6 +12,7 @@ namespace Charlotte.Game3Common
 		public D2Point Pt;
 		public double R;
 		public D4Rect Rect;
+		public Crash[] Cs;
 
 		public bool IsCrashed(Crash other)
 		{
