@@ -1,0 +1,22 @@
+----
+他のプロジェクトへの追加方法
+
+newcpp g2 Game0001 を実行 ("Game0001" は適宜変えてね)
+
+Game0001.sln を開いて Game0001 に Game3Common\ をドラッグ＆ドロップする。
+
+_copyLib.bat を以下のとおり書き換える。(2行追加)
+
+	旧
+		C:\Factory\SubTools\CopyLib.exe C:\Dev\Fairy\Donut2\Donut2\Donut2\Common Game0001\Common
+		C:\Factory\SubTools\CsProjAdjustCs.exe Game0001 Common
+		ROBOCOPY C:\Dev\Fairy\Donut2\Resource\General ..\Resource\General /MIR
+
+	新
+		C:\Factory\SubTools\CopyLib.exe C:\Dev\Fairy\Donut2\Donut2\Donut2\Common Game0001\Common
+		C:\Factory\SubTools\CopyLib.exe C:\Dev\Game3\Brilliant\Brilliant\Brilliant\Game3Common Game0001\Game3Common
+		C:\Factory\SubTools\CsProjAdjustCs.exe Game0001 Common
+		C:\Factory\SubTools\CsProjAdjustCs.exe Game0001 Game3Common
+		ROBOCOPY C:\Dev\Fairy\Donut2\Resource\General ..\Resource\General /MIR
+
+_copyLib.bat を実行する。(念の為)
