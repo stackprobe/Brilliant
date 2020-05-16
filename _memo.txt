@@ -3,7 +3,7 @@
 
 newcpp g2 Game0001 を実行 ("Game0001" は適宜変えてね)
 
-Game0001.sln を開いて Game0001 に Game3Common\ をドラッグ＆ドロップする。
+Game0001.sln を開いてプロジェクトの直下 (Program.cs と同列) に Game3Common\ をドラッグ＆ドロップする。
 
 _copyLib.bat を以下のとおり書き換える。(2行追加)
 
